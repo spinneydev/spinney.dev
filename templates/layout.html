@@ -1,0 +1,43 @@
+{{define "layout"}}<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{if eq .Name "home"}}spinney{{else}}{{.Title}} · spinney{{end}}</title>
+<meta name="description" content="spinney: a small lab. Home of canopy, a read-only web viewer for git.">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111111" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="/lab.css">
+<script src="/js/loop.js"></script>
+</head>
+<body>
+
+<main>
+{{/* A circle rolling back and forth along a line, its pen drawing normal,
+   curtate and prolate cycloids (js/cycloid-horizontal.js, from obk.dev).
+   Hidden until the script runs; the line fades out at both ends. The same
+   on every page, and loop.js carries its time over from page to page. */ -}}
+<svg class="curve" id="cycloid-horizontal" fill="none" viewBox="-2.2 -1.4 4.4 1.8" aria-hidden="true" hidden>
+<defs><linearGradient id="ch-fade" x1="-2.2" x2="2.2" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset="0.1" stop-color="#fff"/><stop offset="0.9" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<mask id="ch-mask"><rect x="-2.2" y="-1.4" width="4.4" height="1.8" fill="url(#ch-fade)"/></mask></defs>
+<g mask="url(#ch-mask)"><path class="ground faint"/><path class="old"/><path class="line"/></g><circle class="rolling faint" cx="0" r="0"/><path class="spoke faint"/><circle class="pen" r="0.03"/></svg>
+<script src="/js/cycloid-horizontal.js"></script>
+
+  <h1>{{if eq .Name "home"}}{{.Title}}{{with .Phonetic}} <span class="phonetic">{{.}}</span>{{end}}{{else}}<a href="/">spinney</a> / {{.Title}}{{end}}</h1>
+{{.Body}}
+  <nav>
+{{- if ne .Name "home"}}
+    <a href="/">home</a>
+{{- end}}
+    <a href="/projects/"{{if eq .Name "projects"}} aria-current="page"{{end}}>projects</a>
+    <a href="/contact/"{{if eq .Name "contact"}} aria-current="page"{{end}}>contact</a>
+  </nav>
+</main>
+
+</body>
+</html>
+{{end}}
